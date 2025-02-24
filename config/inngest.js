@@ -23,6 +23,7 @@ export const syncUserCreation = inngest.createFunction(
       name: first_name + " " + last_name,
       imageUrl: image_url,
     };
+    await connectDB();
     await User.create(userData);
   }
 );
@@ -44,6 +45,7 @@ export const syncUserUpdation = inngest.createFunction(
       name: first_name + " " + last_name,
       imageUrl: image_url,
     };
+    await connectDB();
     await User.findByIdAndUpdate(id, userData);
   }
 );
@@ -58,6 +60,7 @@ export const syncUserDeletion = inngest.createFunction(
   },
   async ({ event }) => {
     const { id } = event.data;
+    await connectDB();
     await User.findByIdAndDelete(id);
   }
 );
@@ -82,7 +85,7 @@ export const createUserOrder = inngest.createFunction(
         date: event.data.date,
       };
     });
-
+    await connectDB();
     await Order.insertMany(orders);
 
     return { success: true, processed: orders.length };

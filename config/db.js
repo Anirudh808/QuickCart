@@ -16,6 +16,7 @@ async function connectDB() {
     cached.promise = mongoose
       .connect(`${process.env.MONGODB_URI}/QuickCart`, opts)
       .then((mongoose) => {
+        console.log("DB connection successfull");
         return mongoose;
       })
       .catch((err) => {

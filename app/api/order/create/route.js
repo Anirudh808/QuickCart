@@ -1,3 +1,4 @@
+import connectDB from "@/config/db";
 import { inngest } from "@/config/inngest";
 import Product from "@/models/Product";
 import { getAuth, User } from "@clerk/nextjs/server";
@@ -30,6 +31,7 @@ export async function POST(request) {
     });
 
     // clear user cart.
+    await connectDB();
     const user = await User.findById(userId);
     user.cartItems = {};
     await user.save();
