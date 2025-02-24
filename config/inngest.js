@@ -12,7 +12,7 @@ export const syncUserCreation = inngest.createFunction(
     id: "sync-user-from-clerk",
   },
   {
-    event: "clerk/user.created",
+    event: "clerk/user.created" || "clerk/email.created",
   },
   async ({ event }) => {
     const { id, first_name, last_name, email_addresses, image_url } =
