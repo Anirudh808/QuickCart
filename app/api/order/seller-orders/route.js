@@ -6,9 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
-    console.log(request);
     const { userId } = getAuth(request);
-    console.log(userId);
     const isSeller = authSeller(userId);
 
     if (!isSeller) {

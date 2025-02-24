@@ -38,6 +38,7 @@ export const AppContextProvider = (props) => {
 
   const fetchUserData = async () => {
     try {
+      console.log("user role is ", user.publicMetadata.role);
       if (user.publicMetadata.role === "seller") {
         setIsSeller(true);
       }
