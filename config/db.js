@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
 
 let cached = global.mongoose;
 
@@ -17,13 +17,20 @@ async function connectDB() {
       .connect(`${process.env.MONGODB_URI}/QuickCart`, opts)
       .then((mongoose) => {
         return mongoose;
+      })
+      .catch((err) => {
+        console.error("Database connection error:", err);
+        throw new Error("Failed to connect to MongoDB");
       });
   }
 
-  cached.conn = await cached.promise;
-
-  console.log(cached.conn);
-  return cached.conn;
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    cached.promise = null; // Reset promise to allow retrying
+    throw error;
+  }
 }
 
 export default connectDB;

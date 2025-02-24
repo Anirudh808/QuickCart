@@ -9,6 +9,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import mongoose from "mongoose";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
@@ -17,7 +18,21 @@ export const metadata = {
   description: "E-Commerce with Next.js ",
 };
 
-export default function RootLayout({ children }) {
+const opts = {
+  bufferCommands: false,
+};
+
+await mongoose
+  .connect(`${process.env.MONGODB_URI}/QuickCart`, opts)
+  .then(() => {
+    console.log("DB Connected Successfully");
+  })
+  .catch((err) => {
+    console.error("Database connection error:", err);
+    throw new Error("Failed to connect to MongoDB");
+  });
+
+export default async function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
